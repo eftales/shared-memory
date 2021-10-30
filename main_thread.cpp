@@ -9,6 +9,9 @@
 sem_t binSem;
 sem_t binSem2;
 
+#include <mutex>
+std::mutex mtxSem; // 保护 sem
+
 int main() {
      system("ipcrm -a"); // 删除上一次运行时创建的共享内存段
 
@@ -40,8 +43,16 @@ int main() {
 
 
      // Create thread
-     pthread_t thdHelloWorld;
-     res = pthread_create(&thdHelloWorld, NULL, helloWorld, NULL);
+     pthread_t th1;
+     res = pthread_create(&th1, NULL, testThread1, NULL);
+    if (res) {
+         printf("Thread creation failed!!\n");
+         exit(EXIT_FAILURE);
+     }
+
+
+     pthread_t th2;
+     res = pthread_create(&th2, NULL, testThread2, NULL);
     if (res) {
          printf("Thread creation failed!!\n");
          exit(EXIT_FAILURE);
@@ -58,12 +69,12 @@ int main() {
      }
 
      // Wait for thread synchronization
-     void *threadResult;
-     res = pthread_join(thdHelloWorld, &threadResult);
-    if (res) {
-         printf("Thread join failed!!\n");
-         exit(EXIT_FAILURE);
-     }
+//      void *threadResult;
+//      res = pthread_join(th1, &threadResult);
+//     if (res) {
+//          printf("Thread join failed!!\n");
+//          exit(EXIT_FAILURE);
+//      }
 
 
      dttach_shm(buf);

@@ -2,5 +2,6 @@ all:
 	g++ *.cpp -lpthread -o test
 
 clean:
-	rm test
+	-rm test
+	-sudo ipcrm -a
 	

@@ -1,6 +1,6 @@
 #ifndef __HANDLER__
 #define __HANDLER__
 
-void* helloWorld(void* arg);
-
+void* testThread1(void* arg);
+void* testThread2(void* arg);
 #endif
